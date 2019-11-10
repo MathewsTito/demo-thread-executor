@@ -25,7 +25,7 @@ public class DTEController {
 
             resp.setReqId(reqId);
             Future<Long> result = maw.mywork(reqId, 5000);
-            Long l = result.get(5500, TimeUnit.MILLISECONDS);
+            Long l = result.get(1000, TimeUnit.MILLISECONDS);
             long etime = System.currentTimeMillis();
             long tottime = etime - stime;
             resp.setExecutionTime(l.longValue());
