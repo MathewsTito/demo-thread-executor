@@ -4,8 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 
 @org.springframework.context.annotation.Configuration
 public class Configuration {
@@ -16,6 +15,22 @@ public class Configuration {
     public ExecutorService cachedThreadPool() {
         LOG.info("Creating Executor Threadpool");
         return Executors.newCachedThreadPool();
+    }
+
+    @Bean("blockingThreadPool")
+    public ExecutorService blockingThreadPool() {
+        LOG.info("Creating Executor Threadpool");
+        ExecutorService es = new ThreadPoolExecutor(2,2,1, TimeUnit.SECONDS,new ArrayBlockingQueue<Runnable>(2));
+
+        return es;
+    }
+
+    @Bean("syncThreadPool")
+    public ExecutorService syncThreadPool() {
+        LOG.info("Creating Executor Threadpool");
+        ExecutorService es = new ThreadPoolExecutor(2,2,1, TimeUnit.SECONDS,new SynchronousQueue<Runnable>());
+
+        return es;
     }
 
 }

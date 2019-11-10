@@ -11,7 +11,7 @@ import java.util.concurrent.Future;
 @Component
 public class MyAsyncWorker {
 
-    @Async("cachedThreadPool")
+    @Async("syncThreadPool")
     public Future<Long> mywork(int reqId, long execTime){
         long stime = System.currentTimeMillis();
 

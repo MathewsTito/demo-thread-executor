@@ -20,10 +20,10 @@ public class DTEController {
     @GetMapping("/{reqId}")
     public Response getBook(@PathVariable int reqId) {
         Response resp = new Response();
+        long stime = System.currentTimeMillis();
         try {
 
             resp.setReqId(reqId);
-            long stime = System.currentTimeMillis();
             Future<Long> result = maw.mywork(reqId, 5000);
             Long l = result.get(5500, TimeUnit.MILLISECONDS);
             long etime = System.currentTimeMillis();
@@ -31,7 +31,10 @@ public class DTEController {
             resp.setExecutionTime(l.longValue());
             resp.setWaitTime(tottime - l.longValue());
         } catch (Exception e){
-
+            long etime = System.currentTimeMillis();
+            resp.setWaitTime(etime-stime);
+            resp.setExceptionType(e.getClass().getName());
+            resp.setExceptionMessage(e.getMessage());
         }
 
         return resp;
